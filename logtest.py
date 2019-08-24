@@ -1,6 +1,7 @@
 import sys
 import os
 import logging
+import random
 
 logfile = open('logtest.out', 'w')
 
@@ -103,42 +104,62 @@ def choose_starter_item(char_name, char_class_choice):
         print("You didn't even try did you?")
         choose_starter_item(char_name, char_class_choice)
 
-def fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk):
+def fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk, char_class_choice, starter_item_choice):
     while char_health > 1 and npc_health > 1:
         npc_health -= char_atk
         print(f"{char_name} attacks!")
         print(f"{char_name} does {char_atk} damage!")
         print(f"NPC now has {npc_health} health!")
+        input("Press enter to continue")
+        if npc_health <=0:
+            print(f"{char_name} killed the NPC!")
+            victory(char_name, char_class_choice, starter_item_choice)
         char_health -= npc_atk
         print("NPC attacks!")
         print(f"NPC does {npc_atk} damage!")
         print(f"{char_name} now has {char_health} health!")
-    if char_health <=0:
-        print(f"{char_name} is dead!")
-        dead(char_name)
-    elif npc_health <=0:
-        print(f"{char_name} killed the NPC!")
+        input("Press enter to continue")
+        if char_health <=0:
+            print(f"{char_name} is dead!")
+            dead(char_name, char_class_choice, starter_item_choice)
 
 def start_game(char_name, char_class_choice, starter_item_choice):
-    char_health = 10
-    npc_health = 100
-    char_atk = 10
-    npc_atk = 5
+    char_health = random.randrange(50, 80)
+    npc_health = random.randrange(20, 60)
+    char_atk = random.randrange(5, 30)
+    npc_atk = random.randrange(3, 45)
     print("The game is now starting")
     print(f"{char_name} walks into the dark tunnel from their cell, an undead approaches.")
-    fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk)
+    fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk, char_class_choice, starter_item_choice)
 
-def dead(char_name):
-    print(f"{char_name} has died!")
-    print("Do you want to try again or exit the game?")
-    print("1. Continue\n2. Exit")
+def victory(char_name, char_class_choice, starter_item_choice):
+    print("You slayed!")
+    print("1. Rematch\n2. New Game\n3. Exit")
     choice = input("> ")
     if choice == '1':
-        main_menu()
+        start_game(char_name, char_class_choice, starter_item_choice)
     elif choice == '2':
+        main_menu()
+    elif choice == '3':
+        exit(0)
+    else:
+        print("Don't let the victory go to your head, you still suck.")
+        dead(char_name, char_class_choice, starter_item_choice)
+        
+
+def dead(char_name, char_class_choice, starter_item_choice):
+    print(f"{char_name} has died!")
+    print("Do you want to try again, start a new game, or exit the game?")
+    print("1. Continue\n2. New Game\n3. Exit")
+    choice = input("> ")
+    if choice == '1':
+        start_game(char_name, char_class_choice, starter_item_choice)
+    elif choice == '2':
+        main_menu()
+    elif choice == '3':
         exit(0)
     else:
         print("You're so bad you can't even enter a valid choice.")
-        dead(char_name)
+        dead(char_name, char_class_choice, starter_item_choice)
 
 intro()
