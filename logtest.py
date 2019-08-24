@@ -110,7 +110,7 @@ def fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk, char_c
         print(f"{char_name} attacks!")
         print(f"{char_name} does {char_atk} damage!")
         print(f"NPC now has {npc_health} health!")
-        input("Press enter to continue")
+        input("Press enter to continue\n")
         if npc_health <=0:
             print(f"{char_name} killed the NPC!")
             victory(char_name, char_class_choice, starter_item_choice)
@@ -118,7 +118,7 @@ def fight_sequence(char_name, char_health, npc_health, char_atk, npc_atk, char_c
         print("NPC attacks!")
         print(f"NPC does {npc_atk} damage!")
         print(f"{char_name} now has {char_health} health!")
-        input("Press enter to continue")
+        input("Press enter to continue\n")
         if char_health <=0:
             print(f"{char_name} is dead!")
             dead(char_name, char_class_choice, starter_item_choice)
@@ -139,7 +139,7 @@ def victory(char_name, char_class_choice, starter_item_choice):
     if choice == '1':
         start_game(char_name, char_class_choice, starter_item_choice)
     elif choice == '2':
-        main_menu()
+        newgame()
     elif choice == '3':
         exit(0)
     else:
@@ -155,7 +155,7 @@ def dead(char_name, char_class_choice, starter_item_choice):
     if choice == '1':
         start_game(char_name, char_class_choice, starter_item_choice)
     elif choice == '2':
-        main_menu()
+        newgame()
     elif choice == '3':
         exit(0)
     else:
